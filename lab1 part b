@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+    string* name;
+    int* age;
+
+public:
+    // Constructor
+    Student() {
+        name = new string;
+        age = new int;
+        cout << "Student object created!" << endl;
+    }
+
+    // Destructor
+    ~Student() {
+        delete name;
+        delete age;
+        cout << "Student object destroyed!" << endl;
+    }
+
+    // Setters
+    void setName(const string& s) {
+        *name = s;
+    }
+
+    void setAge(int i) {
+        *age = i;
+    }
+
+    // Getters
+    string getName() const {
+        return *name;
+    }
+
+    int getAge() const {
+        return *age;
+    }
+};
+
+int main() {
+    int size;
+    cout << "Enter number of students: ";
+    cin >> size;
+    cin.ignore(); // clear leftover newline
+
+    // Create dynamic array of students
+    Student* arr = new Student[size];
+
+    // Populate students
+    for (int i = 0; i < size; i++) {
+        string n;
+        int a;
+
+        cout << "Enter the name for student #" << i + 1 << ": ";
+        getline(cin, n);
+        cout << "Enter the age for student #" << i + 1 << ": ";
+        cin >> a;
+        cin.ignore();
+
+        arr[i].setName(n);
+        arr[i].setAge(a);
+    }
+
+    // Display student details
+    cout << "\n--- Student Details ---\n";
+    for (int i = 0; i < size; i++) {
+        cout << "Student #" << i + 1 << ": " 
+             << arr[i].getName() 
+             << ", Age: " << arr[i].getAge() << endl;
+    }
+
+    // Free memory (calls destructors)
+    delete[] arr;
+
+    return 0;
+}
